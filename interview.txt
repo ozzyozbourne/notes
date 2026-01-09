@@ -1,0 +1,14 @@
+1) Langchain and Langgraph difference 
+2) How to do semantic search in vector embedding 
+3) How to make the output of the LLM deterministic
+4) What is langgraph 
+5) What is RAG
+6) What is data base connection pool 
+7) What is the difference in JS and TS 
+8) How to make parrallel calls to the LLM
+9) Where and how did you use the TOOLS 
+10) How make the data in the LLM secure 
+
+
+1) Tell me about yourself 
+

@@ -1,0 +1,136 @@
+
+  📚 Arena Learning Path (Simple → Complex)
+
+  Level 1: Foundation Concepts (Start Here!)
+
+  1. arena_allocation_policy.h (102 lines)
+
+  - What: Simple config struct for allocation strategies
+  - Key Concepts:
+    - start_block_size, max_block_size
+    - Custom allocator function pointers
+    - Tagged pointer optimization
+  - Why First: Pure data structures, no complex logic
+
+  2. arena_align.h (199 lines) + arena_align_test.cc
+
+  - What: Memory alignment utilities
+  - Key Concepts:
+    - 8-byte alignment requirements
+    - Ceil(), Floor() alignment helpers
+    - Pointer arithmetic for alignment
+  - Why: Understanding alignment is critical for arena internals
+
+  3. arena_cleanup.h (108 lines)
+
+  - What: Destructor registration system
+  - Key Concepts:
+    - CleanupNode - stores (object, destructor) pairs
+    - ChunkList - linked list of cleanup nodes
+    - When/why objects need cleanup vs skip destructor
+  - Why: Shows how arena handles object lifetimes
+
+  ---
+  Level 2: Core Arena Implementation
+
+  4. serial_arena.h (447 lines)
+
+  - What: Single-threaded arena allocator (the actual bump allocator!)
+  - Key Concepts:
+    - Bump pointer allocation: ptr_ and limit_
+    - Block chaining when current block is full
+    - AllocateAligned() - the fast path
+  - Key Code to Study:
+    - Lines ~100-150: The bump allocation logic
+    - Lines ~200-250: Block allocation when out of space
+  - Why: This is the heart of arena allocation
+
+  5. thread_safe_arena.h (285 lines)
+
+  - What: Thread-safe wrapper around SerialArena
+  - Key Concepts:
+    - Per-thread SerialArena instances
+    - Thread-local caching
+    - Lifecycle management
+  - Why: Shows how to make bump allocators thread-safe
+
+  ---
+  Level 3: Public API & Integration
+
+  6. arena.h (842 lines)
+
+  - What: The main public API users interact with
+  - Key Sections to Study:
+    - Lines 228-298: Constructor & Create<T>() API
+    - Lines 400-540: InternalHelper - arena-compatible type traits
+    - Lines 561-565: is_destructor_skippable trait
+  - Key Concepts:
+    - How Arena::Create() dispatches to arena or heap
+    - SFINAE and type traits for arena compatibility
+    - DestructorSkippable_ trait system
+  - Why: Shows how library exposes arena to users
+
+  7. arena.cc (1008 lines)
+
+  - What: Implementation details
+  - Key Sections:
+    - Lines 53-79: Block allocation with geometric growth
+    - Lines 197-247: SerialArena construction
+    - Lines 305-332: AllocateNewBlock() - block chaining
+    - Lines 747-759: Destructor - cleanup and deallocation
+    - Lines 669-690: Thread-safe chunk management
+  - Why: See the full implementation in action
+
+  ---
+  Level 4: Usage Patterns (Reinforcement)
+
+  8. arena_unittest.cc (1950 lines)
+
+  - What: Comprehensive test suite
+  - Study These Tests:
+    - TEST(ArenaTest, Basic) - simple allocation
+    - TEST(ArenaTest, InitialBlockTooSmall) - block growth
+    - TEST(ArenaTest, SpaceAllocated) - memory tracking
+    - Thread safety tests
+  - Why: See real usage patterns and edge cases
+
+  9. Example: map_test.cc or any_test.cc
+
+  - What: Real-world usage in protobuf
+  - Look For:
+    - Arena arena; declarations
+    - Arena::Create<T>(&arena) calls
+    - Scope-based lifetime management
+  - Why: See how arena is used in production code
+
+  ---
+  🎯 Study Strategy
+
+  Day 1-2: Files 1-3 (Foundation)
+  - Read each file completely
+  - Run the tests to see concepts in action
+  - Draw diagrams of data structures
+
+  Day 3-4: Files 4-5 (Core Implementation)
+  - Focus on serial_arena.h lines 100-250
+  - Trace through a single allocation
+  - Understand block chaining
+
+  Day 5-6: Files 6-7 (API & Full Implementation)
+  - Map public API → internal implementation
+  - Trace Arena::Create() → SerialArena::AllocateAligned()
+
+  Day 7: File 8-9 (Usage & Testing)
+  - Run tests in debugger
+  - Write your own small test
+
+  ---
+  💡 Key Questions to Answer While Reading
+
+  1. In serial_arena.h: How does bump pointer allocation work?
+  2. In thread_safe_arena.h: How does each thread get its own SerialArena?
+  3. In arena.h: What makes a type "arena constructable"?
+  4. In arena.cc: When does arena allocate a new block?
+  5. In arena_cleanup.h: When do objects need cleanup vs destructor skip?
+
+  Start with arena_allocation_policy.h - it's the simplest and gives you the config foundation!

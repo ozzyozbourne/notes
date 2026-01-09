@@ -1,0 +1,11 @@
+Just wrapped up the Aya AI Hackathon in NYC and built something I'm really proud of.
+
+I created a full-stack implementation of the Model Context Protocol (MCP) from scratch using Elixir and Phoenix. It's a tool-augmented AI agent that pulls real-time crypto prices from CoinGecko, CoinCap, and Coinbase simultaneously, then uses Gemini to make sense of it all.
+
+The cool part? I built the entire MCP server and client without using any external MCP libraries. Just pure JSON-RPC 2.0, OTP supervision trees, and parallel API aggregation with fault tolerance. Plus a real-time Phoenix LiveView UI that updates instantly without page reloads.
+
+It's production-ready with proper error handling, concurrent workers, and an agentic loop that lets the AI make recursive tool calls. 
+
+Code is open source if anyone wants to check it out. https://github.com/ozzyozbourne/aya-hackathon
+
+#AI #Elixir #Phoenix #MCP #Hackathon #LLM #Blockchain #AyaWallet #BuildInPublic #OpenSource

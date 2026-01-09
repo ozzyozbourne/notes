@@ -1,0 +1,35 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "Please provide me with more context! I need to know what you want me to explain. For example, are you asking me to explain:\n\n*   **A specific concept?** (e.g., \"Explain the theory of relativity\")\n*   **A word or phrase?** (e.g., \"Explain the meaning of 'ubiquitous'\")\n*   **A situation?** (e.g., \"Explain why the stock market crashed in 1929\")\n*   **A piece of code?** (e.g., \"Explain this Python function\")\n*   **Something else entirely?**\n\nThe more information you give me, the better I can understand your request and provide a helpful explanation.\n"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "avgLogprobs": -0.10094471981650904
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 2,
+    "candidatesTokenCount": 152,
+    "totalTokenCount": 154,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 2
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 152
+      }
+    ]
+  },
+  "modelVersion": "gemini-2.0-flash",
+  "responseId": "lEgWacysGpfSjMcPs8m0yA8"
+}

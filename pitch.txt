@@ -1,0 +1,1 @@
+This project explores how AI can enhance artistic creativity by generating new textile patterns.

@@ -1,0 +1,46 @@
+gcloud projects list
+gcloud projects delete <id>
+gcloud projects create <name> --name="Display friendly name"
+gcloud services enable container.googleapis.com compute.googleapis.com
+
+gcloud container clusters create dapr-cluster \
+    --zone us-west1-a \
+    --num-nodes 3 \
+    --machine-type e2-standard-2 \
+    --enable-autoscaling \
+    --min-nodes 3 \
+    --max-nodes 5
+
+gcloud components install gke-gcloud-auth-plugin
+gcloud container clusters get-credentials dapr-cluster --zone us-west1-a
+kubectl get nodes
+kubectl cluster-info
+
+
+gcloud services enable \
+    cloudtrace.googleapis.com \
+    cloudprofiler.googleapis.com \
+    monitoring.googleapis.com \
+    logging.googleapis.com
+
+
+gcloud container clusters update dapr-cluster \
+    --enable-cloud-logging \
+    --enable-cloud-monitoring \
+    --enable-managed-prometheus \
+    --logging=SYSTEM,WORKLOAD \
+    --monitoring=SYSTEM \
+    --zone us-west1-a
+
+
+gcloud container clusters update dapr-cluster \
+    --enable-managed-prometheus \
+    --zone us-west1-a
+
+// Note: Logging and monitoring are enabled by default on GKE clusters
+
+
+gcloud container operations list --filter="name:operation-1762575143424-f93f9575-c2a8-4c84-b41b-5cdc47221e05"
+gcloud container clusters describe dapr-cluster --zone us-west1-a --format="value(status)"
+
+https://console.cloud.google.com/monitoring?project=dapr-cluster

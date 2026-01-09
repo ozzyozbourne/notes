@@ -1,0 +1,73 @@
+
+  The compiler is located in packages/svelte/src/compiler/ and follows a clean three-phase architecture:
+
+  🔄 The Three Phases
+
+  1. PARSE (phases/1-parse/)
+  - Input: .svelte file (raw text)
+  - Process: Character-by-character parsing using a state machine
+    - Reads <script> tags → JavaScript AST
+    - Reads <style> tags → CSS AST
+    - Reads HTML → Template AST
+  - Output: Complete AST with module, instance, fragment, and css sections
+  - Key file: phases/1-parse/index.js (Parser class)
+
+  2. ANALYZE (phases/2-analyze/)
+  - Input: AST from phase 1
+  - Process: Semantic analysis via 80+ visitor functions
+    - Creates scopes (module, instance, template, block scopes)
+    - Tracks bindings and references for every variable
+    - Determines reactivity mode (runes vs legacy)
+    - Validates props, accessibility, CSS usage
+    - Builds dependency graphs
+  - Output: ComponentAnalysis with scopes, bindings, and metadata
+  - Key file: phases/2-analyze/index.js
+
+  3. TRANSFORM (phases/3-transform/)
+  - Input: Analyzed AST + metadata
+  - Process: Code generation (client or server mode)
+    - Client: Generates $.template(), $.state(), $.effect() calls
+    - Server: Generates HTML string concatenation for SSR
+    - Uses ESTree builders to construct JavaScript AST
+    - Prints to code using esrap
+  - Output: { js, css, warnings, metadata }
+  - Key files: phases/3-transform/client/ and phases/3-transform/server/
+
+  📖 How to Study It
+
+  Start with these files in order:
+
+  1. compiler/index.js - Main API (compile, parse, etc.)
+  2. compiler/phases/1-parse/index.js - Parser class
+  3. compiler/types/template.d.ts - AST structure definitions
+  4. compiler/phases/2-analyze/index.js - Analysis orchestration
+  5. compiler/phases/scope.js - Scope and binding system
+  6. compiler/phases/3-transform/client/transform-client.js - Code generation
+
+  Then trace a specific feature (e.g., how {#each} works):
+  - Parse: phases/1-parse/state/tag.js:read_each_block()
+  - Analyze: phases/2-analyze/visitors/EachBlock.js
+  - Transform: phases/3-transform/client/visitors/EachBlock.js
+
+  🎯 Mental Model
+
+  .svelte file
+      ↓
+  PARSE → AST (structure)
+      ↓
+  ANALYZE → AST + Metadata (understanding)
+      ↓
+  TRANSFORM → JavaScript + CSS (executable code)
+
+  The compiler uses the visitor pattern extensively - each phase walks the AST with specialized visitor functions for each node type.
+
+  📁 Directory Quick Reference
+
+  - phases/1-parse/ - String → AST
+  - phases/2-analyze/ - AST validation & scoping
+  - phases/3-transform/client/ - Client-side codegen
+  - phases/3-transform/server/ - SSR codegen
+  - phases/scope.js - Variable tracking
+  - utils/builders.js - JavaScript AST construction
+
+  The codebase is remarkably clean and well-organized. Each phase is independent, making it easy to understand where specific functionality lives!

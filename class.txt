@@ -1,0 +1,17 @@
+1) Sprint 1 -> 
+
+A) Creation of the separate braches in git for qa, and dev 
+B) Creation of github actions files for each env branch to deploy to docker hub 
+B) Integraion of docker hub with github action to deply images when any changes is detected in the 
+   from end or back end code folders
+C) Created per branch docker file, or each enviroment for fast optimized builds 
+D) Integreation of jenkins with github action webhook to deploy the prebuild docker image on the ec2 instance
+E) Integration of slack with jenkins to send notification to each member of the team on the status of the 
+   finstream docker image deployment 
+
+
+2) Sprint 2 -> 
+A) Implemented of jenkins and docker restart, to so that we can manual stop and restart the ec2 instance 
+   to save credits, 
+B) Added, trigger to each github to automatically deploy the pipe line 
+C) 
