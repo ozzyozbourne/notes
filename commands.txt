@@ -5,24 +5,3 @@ dcoker rmi -f ${docker images -q}
 docker logs postgres 2>&1 | tail -30
 
 
-AIzaSyAqf4OQ9lD2NBkCV8o137WkV4sEy5O5KQk
-
-
-curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent" \
-  -H 'Content-Type: application/json' \
-  -H 'X-goog-api-key: AIzaSyAqf4OQ9lD2NBkCV8o137WkV4sEy5O5KQk'\
-  -d '{
-    "contents": [
-      {
-        "parts": [
-          {
-            "text": "Explain how AI works in a few words"
-          }
-        ]
-      }
-    ]
-  }'
-
-
-  PORT=3000 mix phx.server
-  mix run --no-halt
